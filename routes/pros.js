@@ -74,7 +74,7 @@ router.get("/uploaddata/:id", async (req, res) => {
 	}
 });
 
-router.post("/savetemplate/:id", async (req, res) => {
+router.post("/savetemppro/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
 		const user = await User.findById(id);
@@ -100,6 +100,7 @@ router.post("/savetemplate/:id", async (req, res) => {
 			res.status(404).json({ message: "User not found", success: false });
 		}
 	} catch (e) {
+		console.log(e)
 		res.status(409).json({
 			message: e.message,
 			success: false,

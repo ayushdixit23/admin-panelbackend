@@ -75,20 +75,27 @@ const {
   getstore,
   approvestore,
   getdeliveries,
+  getads,
+  approveads,
+  latestUser,
 } = require("../controllers/admincom");
-const { getreports } = require("../controllers/admincom");
+const { getreports, orderSearch } = require("../controllers/admincom");
 
 router.post("/checkid", checkid);
 router.get("/getcom", getCommunities);
 router.get("/getrep", getreports);
 router.get("/getstore", getstore);
 router.get("/getusers", allusers);
+router.post("/approvead", approveads);
+router.get("/getlatestuser", latestUser);
+router.get("/getads", getads);
 router.get("/getactiveusers", getactiveusers);
 router.get("/getdeliveries", getdeliveries);
 router.post("/checkqr", checkqr);
 router.get("/getmonetize", getmonetization);
 router.post("/checkemail", checkemail);
 router.post("/approvestore", approvestore);
+router.post("/orderSearch", orderSearch)
 router.post("/refresh", refresh);
 router.get("/analyticsuser/:userid", analyticsuser);
 router.get("/allcoms/:id", allcoms);

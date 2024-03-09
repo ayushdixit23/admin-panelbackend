@@ -37,7 +37,10 @@ const userSchema = new mongoose.Schema(
       trim: true,
       unique: true,
     },
-    prosite_template: {
+    prositeweb_template: {
+      type: String,
+    },
+    prositemob_template: {
       type: String,
     },
     prositepic: { type: String },
@@ -311,8 +314,10 @@ const userSchema = new mongoose.Schema(
       IFSCcode: {
         type: String,
       },
-
     },
+    showStoreSection: { type: Boolean, default: true },
+    showCommunitySection: { type: Boolean, default: true },
+    showAboutSection: { type: Boolean, default: true },
     // for workspace membership
   },
 

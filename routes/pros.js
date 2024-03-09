@@ -56,11 +56,12 @@ router.get("/uploaddata/:id", async (req, res) => {
 		const { id } = req.params;
 		const user = await User.findById(id);
 		if (user) {
-			let links = [];
+			let elinks = [];
 			for (let i = 0; i < user.contents.length; i++) {
 				let a = process.env.URL + user.contents[i];
-				links.push(a);
+				elinks.push(a);
 			}
+			const links = elinks.reverse()
 			res.status(200).json({ links, success: true });
 		} else {
 			res.status(404).json({ message: "User not found!", success: false });
@@ -77,13 +78,23 @@ router.post("/savetemplate/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
 		const user = await User.findById(id);
+		const { store, about, community, curr_template1, curr_template2, webt } = req.body;
 		console.log(user, id);
 		if (user) {
-			const { curr_template } = req.body;
-			await User.updateOne(
-				{ _id: id },
-				{ $set: { prosite_template: curr_template } }
-			);
+
+			user.prositeweb_template = curr_template1
+			user.prositemob_template = curr_template2
+			user.prositepic = webt
+			if (store !== undefined && store !== null) {
+				user.showStoreSection = store;
+			}
+			if (community !== undefined && community !== null) {
+				user.showCommunitySection = community;
+			}
+			if (about !== undefined && about !== null) {
+				user.showAboutSection = about;
+			}
+			await user.save()
 			res.status(200).json({ success: true });
 		} else {
 			res.status(404).json({ message: "User not found", success: false });
@@ -123,5 +134,29 @@ router.post("/getprosite", async (req, res) => {
 			.json({ message: "Something went wrong...", success: false });
 	}
 });
+
+router.post("/setprefences/:id", async (req, res) => {
+	try {
+		const { store, community, about } = req.body
+		const { id } = req.params
+		const user = await User.findById(id)
+		if (!user) {
+			return res.status(400).json({ success: false })
+		}
+		if (store !== undefined && store !== null) {
+			user.showStoreSection = store;
+		}
+		if (community !== undefined && community !== null) {
+			user.showCommunitySection = community;
+		}
+		if (about !== undefined && about !== null) {
+			user.showAboutSection = about;
+		}
+		await user.save()
+		res.status(200).json({ success: true })
+	} catch (error) {
+		console.log(error)
+	}
+})
 
 module.exports = router;

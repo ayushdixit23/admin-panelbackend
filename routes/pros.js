@@ -51,7 +51,7 @@ router.post("/uploaddata/:id", upload.single("file"), async (req, res) => {
 	}
 });
 
-router.get("/uploaddata/:id", async (req, res) => {
+router.get("/getimage/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
 		const user = await User.findById(id);
@@ -75,13 +75,14 @@ router.get("/uploaddata/:id", async (req, res) => {
 });
 
 router.post("/savetemppro/:id", async (req, res) => {
+	console.log("runded this")
 	try {
 		const { id } = req.params;
+		console.log(req.params)
 		const user = await User.findById(id);
 		const { store, about, community, curr_template1, curr_template2, webt } = req.body;
 		console.log(user, id);
 		if (user) {
-
 			user.prositeweb_template = curr_template1
 			user.prositemob_template = curr_template2
 			user.prositepic = webt
@@ -124,7 +125,7 @@ router.post("/getprosite", async (req, res) => {
 		const user = await User.findOne({ username: u });
 
 		if (user) {
-			res.status(200).json({ success: true, prosite: user.prosite_template });
+			res.status(200).json({ success: true, prosite: user.prositemob_template });
 		} else {
 			res.status(404).json({ success: false, message: "User not found!" });
 		}

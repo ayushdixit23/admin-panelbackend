@@ -25,21 +25,25 @@ router.post("/uploaddata/:id", upload.single("file"), async (req, res) => {
 	try {
 		const { id } = req.params;
 		const user = await User.findById(id);
-		console.log(user, id);
+
 		if (user) {
-			const uuidString = uuid();
-			const objectName = `${Date.now()}${uuidString}${req.file.originalname}`;
-			const result = await s3.send(
-				new PutObjectCommand({
-					Bucket: BUCKET_NAME,
-					Key: objectName,
-					Body: req.file.buffer,
-					ContentType: req.file.mimetype,
-				})
-			);
-			await User.updateOne({ _id: id }, { $push: { contents: objectName } });
-			const link = process.env.URL + objectName;
-			res.status(200).json({ success: true, link });
+			if (user.contents.length < 5) {
+				const uuidString = uuid();
+				const objectName = `${Date.now()}${uuidString}${req.file.originalname}`;
+				const result = await s3.send(
+					new PutObjectCommand({
+						Bucket: BUCKET_NAME,
+						Key: objectName,
+						Body: req.file.buffer,
+						ContentType: req.file.mimetype,
+					})
+				);
+				await User.updateOne({ _id: id }, { $push: { contents: objectName } });
+				const link = process.env.URL + objectName;
+				res.status(200).json({ success: true, link });
+			} else {
+				res.status(203).json({ success: false, premium: true, message: "Maxiumum Uploading Limit Exceeded" });
+			}
 		} else {
 			res.status(404).json({ message: "User not found", success: false });
 		}

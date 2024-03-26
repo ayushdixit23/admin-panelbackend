@@ -682,7 +682,7 @@ exports.getCommunitiesforMon = async (req, res) => {
       const data = {
         username: user.username,
         fullname: user.fullname,
-        profilepic: user.profilepic,
+        profilepic: process.env.URL + user.profilepic,
         userid: user._id,
         requested: mon?.createdAt,
         title: comm.title,

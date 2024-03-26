@@ -19,6 +19,16 @@ const {
   findandblock,
   allapprovals,
   approvalactions,
+  refresh,
+  adminlogin,
+  getCommunitiesforMon,
+  communitiesRequests,
+  store,
+  approveStoreofUser,
+  productApproval,
+  allproductApprovals,
+  dashboard,
+  storecount,
 } = require("../controllers/admin");
 const router = express.Router();
 
@@ -44,4 +54,16 @@ router.post("/findandblock/:userId", findandblock);
 router.get("/allapprovals/:userId", allapprovals);
 router.post("/approvalactions/:userId", approvalactions);
 
+
+// my
+router.post("/adminlogin", adminlogin);
+router.post("/refresh", refresh);
+router.get("/v1/getCommunitiesforMon", getCommunitiesforMon);
+router.post("/requests/:id", communitiesRequests);
+router.get("/v1/store", store);
+router.post("/approveStoreofUser/:id", approveStoreofUser);
+router.post("/productApproval/:id/:pid", productApproval);
+router.post("/allproductApprovals/:id", allproductApprovals);
+router.get("/dashboard", dashboard);
+router.get("/v1/storecount", storecount);
 module.exports = router;

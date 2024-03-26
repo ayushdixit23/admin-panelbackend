@@ -21,6 +21,7 @@ const productSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  isverified: { type: String, enum: ["in review", "verified", "rejected"], default: "in review" },
   orders: [
     {
       type: ObjectId,

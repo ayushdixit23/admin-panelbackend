@@ -553,26 +553,34 @@ exports.adminlogin = async (req, res) => {
       return res.status(409).json({ success: false, message: "You are not allowed to access this panel" })
     }
     const passw = await encryptaes(password)
-    const user = await User.findOne({ email, passw })
-    // const user = await User.findOne({ email, passw: password })
-    if (!user) {
+    const user = await User.findOne({ email })
+
+    if (user) {
+      if (passw !== user.passw) {
+        return res.status(400).json({ success: false, message: "InValid Details" })
+      }
+
+      console.log(passw, user.passw, passw == user.passw)
+      const data = {
+        id: user._id,
+        fullname: user.fullname,
+        username: user.username,
+        pic: process.env.URL + user.profilepic
+      }
+
+      const access_token = generateAccessToken(data);
+      const refresh_token = generateRefreshToken(data);
+
+      res
+        .status(200)
+        .json({
+          access_token, refresh_token, success: true
+        });
+
+    } else {
       return res.status(400).json({ success: false, message: "User Not found" })
     }
-    const data = {
-      id: user._id,
-      fullname: user.fullname,
-      username: user.username,
-      pic: process.env.URL + user.profilepic
-    }
 
-    const access_token = generateAccessToken(data);
-    const refresh_token = generateRefreshToken(data);
-
-    res
-      .status(200)
-      .json({
-        access_token, refresh_token, success: true
-      });
 
   } catch (error) {
     console.log(error);

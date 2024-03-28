@@ -51,28 +51,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
 app.use(morgan("dev"));
-// app.use(bodyParser.json());
-// app.use(cookieParser());
-// app.use("/api", userAuth);
-// app.use("/api", chatRoutes);
-// app.use("/api", messageRoutes);
-// app.use("/api", communityRoutes);
-// app.use("/api", topicRoutes);
-// app.use("/api", productRoutes);
-// app.use("/api", postRoutes);
-// // app.use("/api", prositeRoutes);
-// app.use("/api", commentRoutes);
-// app.use("/api", reviewRoutes);
-// app.use("/api", orderRoutes);
-// app.use("/api", glimpseRoutes);
-// app.use("/api", replyRoutes);
-// app.use("/api", questionsRoutes);
-// app.use("/api", searchRoutes);
 app.use("/api", adminRoutes);
-// app.use("/api", notificationRoutes);
-// app.use("/api", libraryRoutes);
-// app.use("/api", testRoutes);
-// app.use("/api", workRoutes);
 app.use("/api", adRoutes);
 app.use("/api/v1", workspacev1);
 app.use("/api/v1", prosRoutes);
@@ -84,19 +63,7 @@ const connectDB = async () => {
     mongoose.connect(process.env.PRODDB).then(() => {
       console.log("DB is connected");
     });
-    // mongoose.connect(process.env.DATABASE).then(() => {
-    //   console.log("DB is connected");
-    // });
-    // mongoose.connect(process.env.ONLINEDB).then(() => {
-    //   console.log("DB is connected");
-    // });
-    // mongoose
-    //   .connect(
-    //     "mongodb+srv://fsayush100:shreyansh7@cluster0.mrnejwh.mongodb.net/your-database-name?retryWrites=true&w=majority"
-    //   )
-    //   .then(() => {
-    //     console.log("DB is connected");
-    //   });
+
   } catch (err) {
     console.log(err);
   }

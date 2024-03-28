@@ -710,7 +710,7 @@ exports.getCommunitiesforMon = async (req, res) => {
 exports.communitiesRequests = async (req, res) => {
   try {
     const { id } = req.params
-    const { status } = req.body
+    const { status, text } = req.body
     const mont = await Montenziation.findOne({ community: id })
     const community = await Community.findById(id)
 
@@ -718,6 +718,8 @@ exports.communitiesRequests = async (req, res) => {
       return res.status(400).json({ success: false, message: "Community not found!" })
     }
     mont.status = status
+    mont.text = text
+    mont.reapplydate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     await mont.save()
     if (status === "approved") {
       community.ismonetized = true
@@ -791,7 +793,7 @@ exports.communitiesRequests = async (req, res) => {
 exports.approveStoreofUser = async (req, res) => {
   try {
     const { id } = req.params
-    const { status } = req.body
+    const { status, text } = req.body
 
     const request = await Request.findOne({ userid: id })
     const user = await User.findById(id)
@@ -799,6 +801,8 @@ exports.approveStoreofUser = async (req, res) => {
       return res.status(400).json({ success: false, message: "User not found" })
     }
     request.status = status
+    request.text = text
+    request.reapplydate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     if (status === "approved") {
       user.isStoreVerified = true
       request.isverified = true
@@ -881,7 +885,7 @@ exports.store = async (req, res) => {
 exports.productApproval = async (req, res) => {
   try {
     const { id, pid } = req.params
-    const { status } = req.body
+    const { status, text } = req.body
 
     const product = await Product.findById(pid)
     if (!product) {
@@ -893,6 +897,8 @@ exports.productApproval = async (req, res) => {
       product.isverified = "verified"
     } else if (status === "rejected") {
       product.isverified = "rejected"
+      product.text = text
+      product.reapplydate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     } else {
       product.isverified = "pending"
     }
@@ -908,7 +914,7 @@ exports.productApproval = async (req, res) => {
 exports.allproductApprovals = async (req, res) => {
   try {
     const { id } = req.params
-    const { status } = req.body
+    const { status, text } = req.body
 
     const product = await Product.find({ creator: id, isverified: "in review" })
     if (!product) {
@@ -924,6 +930,8 @@ exports.allproductApprovals = async (req, res) => {
 
       for (let i = 0; i < product.length; i++) {
         product[i].isverified = "rejected"
+        product[i].text = text
+        product[i].reapplydate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         await product[i].save()
       }
     } else {

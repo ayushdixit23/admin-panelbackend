@@ -70,6 +70,8 @@ const productSchema = new mongoose.Schema({
     enum: ["Unblock", "Block"],
   },
   sharescount: { type: Number, default: 0 },
+  text: { type: String },
+  reapplydate: { type: Date },
   // changed
   itemsold: { type: Number, default: 0 },
   collectionss: { type: ObjectId, ref: "Collectionss" },

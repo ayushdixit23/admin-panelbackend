@@ -15,6 +15,7 @@ const Request = new mongoose.Schema({
 		documenttype: { type: String },
 		documentfile: { type: String },
 	},
+	reapplydate: { type: Date },
 	isverified: { type: Boolean, default: false }
 }, { timestamps: true })
 

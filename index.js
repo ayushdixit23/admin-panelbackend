@@ -81,9 +81,12 @@ app.use("/api/v1", prosRoutes);
 const connectDB = async () => {
   try {
     mongoose.set("strictQuery", false);
-    mongoose.connect(process.env.DATABASE).then(() => {
+    mongoose.connect(process.env.PRODDB).then(() => {
       console.log("DB is connected");
     });
+    // mongoose.connect(process.env.DATABASE).then(() => {
+    //   console.log("DB is connected");
+    // });
     // mongoose.connect(process.env.ONLINEDB).then(() => {
     //   console.log("DB is connected");
     // });
